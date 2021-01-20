@@ -7,11 +7,13 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
+
+class SecondViewController: UIViewController , UIGestureRecognizerDelegate{
     
     @IBOutlet weak var tableView: UITableView!
     var arr = [ToDoItem]()
     let cellId = "TableViewCell"
+    @IBOutlet var mySwitch : UISwitch!
    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -21,11 +23,14 @@ class SecondViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+            longPressGesture.minimumPressDuration = 1
+            self.tableView.addGestureRecognizer(longPressGesture)
+        
         self.title = "Main page"
         self.configureTableView()
     }
 
-    
     func configureTableView(){
         tableView.delegate = self
         tableView.dataSource = self
@@ -54,7 +59,7 @@ class SecondViewController: UIViewController {
            // добавить новую запись
           
            let newTitle = alertController.textFields![0].text
-           let newDate  =  alertController.textFields![1].text
+           let newDate  = alertController.textFields![1].text
            let newThingList = ToDoItem(title: newTitle, deadLine : newDate)
            self.arr.append(newThingList)
            self.tableView.reloadData()
@@ -79,7 +84,7 @@ extension SecondViewController  {
     func editItem( at indexPath: IndexPath) ->
        
         UIContextualAction{
-        let action = UIContextualAction(style: .normal, title: "Edit") {(action , view ,completion) in
+        let action = UIContextualAction(style: .normal, title: "EDIT") {(action , view ,completion) in
                
             let alertController = UIAlertController(title: "Edit current item", message: nil, preferredStyle: .alert)
                
@@ -95,7 +100,7 @@ extension SecondViewController  {
                
                }
                
-               let alertAction2 = UIAlertAction(title: "Edit", style: .default) { (alert) in
+               let alertAction2 = UIAlertAction(title: "Edit", style: .cancel) { (alert) in
                   
                 let newTitle = alertController.textFields![0].text
                 let newDate  =  alertController.textFields![1].text
@@ -113,14 +118,45 @@ extension SecondViewController  {
     }
     
     func removeItem(at indexPath : IndexPath) -> UIContextualAction{
+        
         let action = UIContextualAction(style: .destructive, title: "DELETE") {(action , view ,completion) in
-            self.arr.remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            let alert = UIAlertController(title: "DELETE?", message: "Data can not be returned after deletion", preferredStyle: .actionSheet)
+
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: {action in
+                self.arr.remove(at: indexPath.row)
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            }))
+            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+
+            self.present(alert, animated: true)
+            
         }
        // action.image = Trashcan
         action.backgroundColor = .red
         return action
     }
+    
+    @objc func handleLongPress(longPressGesture: UILongPressGestureRecognizer) {
+        let p = longPressGesture.location(in: self.tableView)
+        let indexPath = self.tableView.indexPathForRow(at: p)
+        if indexPath == nil {
+            print("Long press on table view, not row.")
+        } else if longPressGesture.state == UIGestureRecognizer.State.began {
+                // перенаправление на эдит контр
+                let vc = self.storyboard?.instantiateViewController(identifier: "edit_vc") as! EditViewController
+            //получаем клоужер
+               vc.complitionHandler = { title , date  in
+                let newThingList = ToDoItem(title: title, deadLine : date)
+                self.arr[indexPath!.row] = newThingList
+                self.tableView.reloadData()
+            }
+           // vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true)
+                              
+        }
+    }
+
 }
 
 extension SecondViewController: UITableViewDelegate, UITableViewDataSource{
@@ -139,5 +175,30 @@ extension SecondViewController: UITableViewDelegate, UITableViewDataSource{
         return cell
     }
     
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
     
+   
+//    @IBAction func switchDidChange(_ sender : UISwitch){
+//        if sender.isOn{
+//            view.backgroundColor = .red
+//        }else{
+//            view.backgroundColor = .white
+//        }
+//    }
+//
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        arr.swapAt(sourceIndexPath.row, destinationIndexPath.row)
+    }
+    
+    @IBAction func tapSort(){
+        if tableView.isEditing{
+            tableView.isEditing = false
+        }else {
+            tableView.isEditing = true 
+        }
+    }
+    
+
 }

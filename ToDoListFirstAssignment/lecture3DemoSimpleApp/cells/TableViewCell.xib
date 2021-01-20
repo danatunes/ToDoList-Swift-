@@ -12,10 +12,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" rowHeight="71" id="KGk-i7-Jjw" customClass="TableViewCell" customModule="lecture3DemoSimpleApp" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="285" height="71"/>
+            <rect key="frame" x="0.0" y="0.0" width="325" height="71"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="285" height="71"/>
+                <rect key="frame" x="0.0" y="0.0" width="325" height="71"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eIT-ro-fhq">
@@ -30,11 +30,16 @@
                         <color key="textColor" systemColor="systemGray2Color"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Aqh-rC-rNz">
+                        <rect key="frame" x="260" y="24" width="51" height="31"/>
+                    </switch>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="bottom" secondItem="Aqh-rC-rNz" secondAttribute="bottom" constant="16" id="0QA-6x-ccr"/>
                     <constraint firstItem="eIT-ro-fhq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="2W8-Rx-Etk"/>
                     <constraint firstItem="eIT-ro-fhq" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="14" id="5gN-ie-8pE"/>
                     <constraint firstAttribute="bottom" secondItem="k5C-UP-TXp" secondAttribute="bottom" constant="11" id="91W-Ts-9Wu"/>
+                    <constraint firstAttribute="trailing" secondItem="Aqh-rC-rNz" secondAttribute="trailing" constant="16" id="Ch2-Xe-p9V"/>
                     <constraint firstItem="k5C-UP-TXp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="YJE-u1-N52"/>
                     <constraint firstItem="k5C-UP-TXp" firstAttribute="top" secondItem="eIT-ro-fhq" secondAttribute="bottom" constant="8" symbolic="YES" id="w2O-T0-Yda"/>
                 </constraints>
@@ -44,7 +49,7 @@
                 <outlet property="subTitleLabel" destination="k5C-UP-TXp" id="90G-bl-U6j"/>
                 <outlet property="titleLabel" destination="eIT-ro-fhq" id="ERN-jo-hby"/>
             </connections>
-            <point key="canvasLocation" x="-9.4202898550724647" y="95.424107142857139"/>
+            <point key="canvasLocation" x="19.565217391304348" y="95.424107142857139"/>
         </tableViewCell>
     </objects>
     <resources>
